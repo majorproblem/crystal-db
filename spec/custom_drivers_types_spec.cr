@@ -69,6 +69,10 @@ class FooDriver < DB::Driver
     def build_unprepared_statement(query) : DB::Statement
       raise "not implemented"
     end
+
+    def info : DB::Connection::Info
+      DB::Connection::Info.new(name: "Foo", version: "0.0.0", dialect: DB::Dialect::Other)
+    end
   end
 
   class FooStatement < DB::Statement
@@ -141,6 +145,10 @@ class BarDriver < DB::Driver
 
     def build_unprepared_statement(query) : DB::Statement
       raise "not implemented"
+    end
+
+    def info : DB::Connection::Info
+      DB::Connection::Info.new(name: "Bar", version: "0.0.0", dialect: DB::Dialect::Other)
     end
   end
 

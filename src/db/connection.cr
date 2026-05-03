@@ -36,6 +36,16 @@ module DB
       end
     end
 
+    # Identifying information about the server (or library, for embedded databases) on the other end of a `Connection`.
+    #
+    # * `name` — the server's self-reported identifier, free-form. Distinguishes between products that share a `Dialect` (e.g. `"MariaDB"` vs `"MySQL"`).
+    # * `version` — the raw version string as reported by the server. Format is server-specific.
+    # * `dialect` — the SQL/CQL flavor.
+    record Info,
+      name : String,
+      version : String,
+      dialect : Dialect
+
     # :nodoc:
     property context : ConnectionContext = SingleConnectionContext.default
     @statements_cache = StringKeyCache(Statement).new
@@ -68,6 +78,9 @@ module DB
 
     # :nodoc:
     abstract def build_unprepared_statement(query) : Statement
+
+    # Returns identifying information about the connected server or library.
+    abstract def info : Info
 
     def begin_transaction : Transaction
       raise DB::Error.new("There is an existing transaction in this connection") if @transaction

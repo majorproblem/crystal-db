@@ -65,6 +65,10 @@ class DummyDriver < DB::Driver
       DummyStatement.new(self, query, false)
     end
 
+    def info : DB::Connection::Info
+      DB::Connection::Info.new(name: "Dummy", version: "0.0.0", dialect: DB::Dialect::Other)
+    end
+
     def last_insert_id : Int64
       assert_not_closed!
 

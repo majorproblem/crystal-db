@@ -10,6 +10,17 @@ describe DummyDriver do
     end
   end
 
+  describe "#info" do
+    it "exposes connection identity, version, and dialect" do
+      with_dummy_connection do |cnn|
+        info = cnn.info
+        info.name.should eq("Dummy")
+        info.version.should eq("0.0.0")
+        info.dialect.should eq(DB::Dialect::Other)
+      end
+    end
+  end
+
   describe DummyDriver::DummyStatement do
     it "should enumerate split rows by spaces" do
       with_dummy do |db|
